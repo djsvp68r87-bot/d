@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -13,12 +13,9 @@ DOCTYPE html>
       -webkit-user-select:none; user-select:none; }
   html, body { width:100%; height:100%; overflow:hidden; background:#000;
       font-family: -apple-system, monospace; touch-action:none; }
-  #game { position:fixed; inset:0; }
   canvas { display:block; width:100%; height:100%; image-rendering:pixelated; }
-
-  /* HUD */
   #hud { position:fixed; left:0; right:0; top:0;
-      padding: calc(8px + env(safe-area-inset-top)) 14px 8px;
+      padding: calc(6px + env(safe-area-inset-top)) 16px 6px;
       display:flex; justify-content:space-between;
       color:#ffcc00; font-weight:bold; font-size:14px;
       text-shadow: 0 0 6px #000, 0 0 3px #000; pointer-events:none; z-index:5;
@@ -26,81 +23,73 @@ DOCTYPE html>
   #hud .hp { color:#ff5566; }
   #hud .am { color:#66ddff; }
   #hud .sc { color:#88ff88; }
-
-  /* Кнопка стрельбы */
-  #fire { position:fixed; right: calc(20px + env(safe-area-inset-right));
-      bottom: calc(30px + env(safe-area-inset-bottom));
-      width:110px; height:110px; border-radius:50%;
+  #fire { position:fixed; right: calc(24px + env(safe-area-inset-right));
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      width:100px; height:100px; border-radius:50%;
       background: radial-gradient(circle at 30% 30%, #ff3333, #880000);
       border: 3px solid #ff8888;
-      box-shadow: 0 0 30px rgba(255,50,50,0.6), inset 0 0 20px rgba(255,255,255,0.2);
-      color:#fff; font-size:16px; font-weight:900;
+      box-shadow: 0 0 30px rgba(255,50,50,0.6);
+      color:#fff; font-size:15px; font-weight:900;
       display:flex; align-items:center; justify-content:center;
       z-index:10; letter-spacing:2px; }
-  #fire:active { transform:scale(0.93);
-      box-shadow: 0 0 50px rgba(255,80,80,1); }
-
-  /* Джойстик */
+  #fire:active { transform:scale(0.93); }
   #joy-base { position:fixed;
-      left: calc(20px + env(safe-area-inset-left));
-      bottom: calc(30px + env(safe-area-inset-bottom));
-      width:150px; height:150px; border-radius:50%;
+      left: calc(24px + env(safe-area-inset-left));
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      width:140px; height:140px; border-radius:50%;
       background: rgba(255,255,255,0.06);
       border: 2px solid rgba(255,255,255,0.18);
       z-index:10; pointer-events:none; }
   #joy-stick { position:absolute; left:50%; top:50%;
-      width:64px; height:64px; margin:-32px 0 0 -32px;
+      width:60px; height:60px; margin:-30px 0 0 -30px;
       border-radius:50%; background: rgba(255,220,80,0.55);
-      border:2px solid rgba(255,255,255,0.4);
-      box-shadow:0 0 20px rgba(255,200,60,0.5); }
-
-  /* Экран смерти */
+      border:2px solid rgba(255,255,255,0.4); }
   #dead { position:fixed; inset:0; display:none;
       flex-direction:column; align-items:center; justify-content:center;
       background: rgba(60,0,0,0.85); color:#fff; z-index:20;
-      backdrop-filter: blur(4px); text-align:center; }
-  #dead h1 { font-size:48px; color:#ff3344; margin-bottom:14px;
-      letter-spacing:4px; text-shadow:0 0 30px #ff0000; }
-  #dead p { font-size:20px; opacity:0.9; margin-bottom:8px; }
+      text-align:center; }
+  #dead h1 { font-size:44px; color:#ff3344; margin-bottom:14px;
+      letter-spacing:4px; }
+  #dead p { font-size:20px; opacity:0.9; }
   #dead small { opacity:0.6; margin-top:20px; font-size:14px; }
-
-  /* Крестик прицела */
-  #cross { position:fixed; left:50%; top:50%; width:26px; height:26px;
-      margin:-13px 0 0 -13px; z-index:5; pointer-events:none; }
+  #cross { position:fixed; left:50%; top:50%; width:24px; height:24px;
+      margin:-12px 0 0 -12px; z-index:5; pointer-events:none; }
   #cross::before, #cross::after {
       content:''; position:absolute; background:#fff;
-      box-shadow:0 0 4px #000, 0 0 8px #ff0; }
+      box-shadow:0 0 4px #000; }
   #cross::before { left:50%; top:0; width:2px; height:100%; margin-left:-1px; }
   #cross::after  { top:50%; left:0; height:2px; width:100%; margin-top:-1px; }
-
-  /* Вспышка выстрела */
   #flash { position:fixed; inset:0; background:#fff;
       opacity:0; pointer-events:none; z-index:6; }
-
-  /* Стартовый экран */
   #start { position:fixed; inset:0; z-index:30;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       background:#0a0a12; color:#fff; text-align:center; padding:20px; }
-  #start h1 { font-size:34px; color:#ffcc00; letter-spacing:6px;
-      margin-bottom:10px; text-shadow:0 0 20px #ff8800; }
-  #start p { opacity:0.85; line-height:1.6; font-size:15px; max-width:320px; }
-  #start button { margin-top:26px; padding:16px 42px; border:none;
+  #start h1 { font-size:32px; color:#ffcc00; letter-spacing:6px;
+      margin-bottom:14px; }
+  #start p { opacity:0.85; line-height:1.7; font-size:14px; max-width:420px; }
+  #start button { margin-top:24px; padding:14px 44px; border:none;
       background:#ffcc00; color:#000; font-weight:900; font-size:18px;
       letter-spacing:2px; border-radius:8px; }
+  #rotate { position:fixed; inset:0; background:#0a0a12; color:#ffcc00;
+      display:none; align-items:center; justify-content:center;
+      flex-direction:column; z-index:100; font-size:22px;
+      font-weight:bold; letter-spacing:2px; text-align:center; padding:20px; }
+  #rotate .icon { font-size:64px; margin-bottom:20px;
+      animation: rot 2s ease-in-out infinite; }
+  @keyframes rot { 0%,100%{transform:rotate(0)} 50%{transform:rotate(90deg)} }
 </style>
 </head>
 <body>
-<div id="game"><canvas id="cv"></canvas></div>
+<canvas id="cv"></canvas>
 
 <div id="hud">
   <span class="hp">❤ <span id="hp">100</span></span>
-  <span class="am">⚡ <span id="am">50</span></span>
+  <span class="am">⚡ ∞</span>
   <span class="sc">☠ <span id="sc">0</span></span>
 </div>
 
 <div id="cross"></div>
 <div id="flash"></div>
-
 <div id="joy-base"><div id="joy-stick"></div></div>
 <div id="fire">FIRE</div>
 
@@ -110,25 +99,30 @@ DOCTYPE html>
   <small>тапни — начать заново</small>
 </div>
 
+<div id="rotate">
+  <div class="icon">📱</div>
+  ПОВЕРНИ ТЕЛЕФОН<br>ГОРИЗОНТАЛЬНО
+</div>
+
 <div id="start">
   <h1>RAYCAST ARENA</h1>
   <p>
     <b>Левая сторона</b> — джойстик (движение)<br>
     <b>Свайп по центру</b> — поворот камеры<br>
-    <b>Красная кнопка</b> — огонь<br>
-    Убивай красных врагов, не подпускай близко!
+    <b>Красная кнопка</b> — огонь (∞ патронов)<br>
+    Убивай монстров, не подпускай близко!
   </p>
   <button id="go">ИГРАТЬ</button>
 </div>
 
 <script>
-(() => {
-const cv = document.getElementById('cv');
-const ctx = cv.getContext('2d', { alpha: false });
+(function(){
+"use strict";
 
-// ---------- КАРТА ----------
-// 1 = стена, 0 = пусто. 16x16 лабиринт
-const MAP = [
+var cv = document.getElementById('cv');
+var ctx = cv.getContext('2d', { alpha: false });
+
+var MAP = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
   [1,0,1,1,0,0,1,1,1,0,0,1,0,0,0,1],
@@ -144,117 +138,100 @@ const MAP = [
   [1,0,1,0,1,0,1,1,1,0,1,1,0,1,0,1],
   [1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1],
   [1,0,1,0,0,0,1,1,1,1,0,0,0,1,0,1],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
-const MAP_W = MAP[0].length, MAP_H = MAP.length;
+var MAP_W = MAP[0].length, MAP_H = MAP.length;
 
 function isWall(x, y) {
-  const mx = Math.floor(x), my = Math.floor(y);
+  var mx = Math.floor(x), my = Math.floor(y);
   if (mx < 0 || mx >= MAP_W || my < 0 || my >= MAP_H) return true;
   return MAP[my][mx] === 1;
 }
 
-// ---------- СОСТОЯНИЕ ИГРЫ ----------
-const state = {
-  px: 3.5, py: 3.5,       // позиция игрока
-  dir: 0,                 // угол направления (радианы)
-  fov: Math.PI / 3,       // 60°
-  hp: 100, ammo: 50, score: 0,
-  dead: false,
-  enemies: [],
-  particles: [],          // вспышки попаданий
-  running: false,
-  bob: 0,                 // покачивание при ходьбе
+var state = {
+  px: 3.5, py: 3.5, dir: 0,
+  fov: Math.PI / 2.6,
+  hp: 100, score: 0, dead: false,
+  enemies: [], particles: [],
+  running: false, bob: 0
 };
 
-function reset() {
-  state.px = 3.5; state.py = 3.5; state.dir = 0;
-  state.hp = 100; state.ammo = 50; state.score = 0;
-  state.dead = false; state.particles = [];
-  state.enemies = [];
-  spawnEnemies(5);
-  document.getElementById('hp').textContent = '100';
-  document.getElementById('am').textContent = '50';
-  document.getElementById('sc').textContent = '0';
-  document.getElementById('dead').style.display = 'none';
-}
-
 function findFreeCell() {
-  for (let tries = 0; tries < 500; tries++) {
-    const x = 1 + Math.random() * (MAP_W - 2);
-    const y = 1 + Math.random() * (MAP_H - 2);
-    if (!isWall(x, y) && Math.hypot(x - state.px, y - state.py) > 4) {
-      return { x, y };
-    }
+  for (var t = 0; t < 500; t++) {
+    var x = 1 + Math.random() * (MAP_W - 2);
+    var y = 1 + Math.random() * (MAP_H - 2);
+    if (!isWall(x, y) && Math.hypot(x - state.px, y - state.py) > 4)
+      return { x: x, y: y };
   }
   return { x: 8, y: 8 };
 }
 
 function spawnEnemies(n) {
-  for (let i = 0; i < n; i++) {
-    const p = findFreeCell();
+  for (var i = 0; i < n; i++) {
+    var p = findFreeCell();
     state.enemies.push({
-      x: p.x, y: p.y,
-      hp: 30,
-      alive: true,
-      lastAttack: 0,
-      wobble: Math.random() * 6.28,
+      x: p.x, y: p.y, hp: 30, alive: true,
+      lastAttack: 0, wobble: Math.random() * 6.28,
+      frame: 0, frameTimer: 0
     });
   }
 }
 
-// ---------- РАЗМЕР CANVAS ----------
-let W = 0, H = 0;
+function reset() {
+  state.px = 3.5; state.py = 3.5; state.dir = 0;
+  state.hp = 100; state.score = 0;
+  state.dead = false;
+  state.particles = []; state.enemies = [];
+  spawnEnemies(5);
+  document.getElementById('hp').textContent = '100';
+  document.getElementById('sc').textContent = '0';
+  document.getElementById('dead').style.display = 'none';
+}
+
+var W = 0, H = 0;
 function resize() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   W = cv.width  = Math.floor(window.innerWidth  * dpr);
   H = cv.height = Math.floor(window.innerHeight * dpr);
   cv.style.width  = window.innerWidth + 'px';
   cv.style.height = window.innerHeight + 'px';
   ctx.imageSmoothingEnabled = false;
+  var portrait = window.innerHeight > window.innerWidth;
+  document.getElementById('rotate').style.display = portrait ? 'flex' : 'none';
 }
 window.addEventListener('resize', resize);
-window.addEventListener('orientationchange', () => setTimeout(resize, 200));
+window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
 
-// ---------- УПРАВЛЕНИЕ ----------
-const keys = { w:0, a:0, s:0, d:0 };
+var keys = { w:0, a:0, s:0, d:0 };
 
-const joy = {
+var joy = {
   active: false, id: null,
   cx: 0, cy: 0, dx: 0, dy: 0,
   baseEl: document.getElementById('joy-base'),
-  stickEl: document.getElementById('joy-stick'),
+  stickEl: document.getElementById('joy-stick')
 };
-
 function updateJoyBase() {
-  const r = joy.baseEl.getBoundingClientRect();
+  var r = joy.baseEl.getBoundingClientRect();
   joy.cx = r.left + r.width / 2;
   joy.cy = r.top + r.height / 2;
 }
-
 function setStick(x, y) {
   joy.stickEl.style.left = (50 + x * 50) + '%';
   joy.stickEl.style.top  = (50 + y * 50) + '%';
 }
 
-// Свайп-поворот
-let look = { active: false, id: null, lastX: 0 };
+var look = { active: false, id: null, lastX: 0 };
 
-// Обработка тачей
-cv.addEventListener('touchstart', (e) => {
+cv.addEventListener('touchstart', function(e){
   if (state.dead) return;
   updateJoyBase();
-  for (const t of e.changedTouches) {
-    const x = t.clientX, y = t.clientY;
-    const dJoy = Math.hypot(x - joy.cx, y - joy.cy);
-    // Если тач в зоне джойстика слева-снизу
+  for (var i = 0; i < e.changedTouches.length; i++) {
+    var t = e.changedTouches[i];
+    var x = t.clientX, y = t.clientY;
     if (!joy.active && x < window.innerWidth * 0.5 && y > window.innerHeight * 0.5) {
       joy.active = true; joy.id = t.identifier;
-      joy.dx = 0; joy.dy = 0;
-      setStick(0, 0);
-      continue;
+      joy.dx = 0; joy.dy = 0; setStick(0, 0); continue;
     }
-    // Иначе — поворот камеры
     if (!look.active) {
       look.active = true; look.id = t.identifier; look.lastX = x;
     }
@@ -262,29 +239,28 @@ cv.addEventListener('touchstart', (e) => {
   e.preventDefault();
 }, { passive: false });
 
-cv.addEventListener('touchmove', (e) => {
-  for (const t of e.changedTouches) {
+cv.addEventListener('touchmove', function(e){
+  for (var i = 0; i < e.changedTouches.length; i++) {
+    var t = e.changedTouches[i];
     if (joy.active && t.identifier === joy.id) {
-      const dx = t.clientX - joy.cx;
-      const dy = t.clientY - joy.cy;
-      const len = Math.hypot(dx, dy);
-      const maxR = 60;
-      const nx = len > maxR ? dx / len : dx / maxR;
-      const ny = len > maxR ? dy / len : dy / maxR;
-      joy.dx = nx; joy.dy = ny;
-      setStick(nx, ny);
+      var dx = t.clientX - joy.cx, dy = t.clientY - joy.cy;
+      var len = Math.hypot(dx, dy), maxR = 60;
+      var nx = len > maxR ? dx / len : dx / maxR;
+      var ny = len > maxR ? dy / len : dy / maxR;
+      joy.dx = nx; joy.dy = ny; setStick(nx, ny);
     }
     if (look.active && t.identifier === look.id) {
-      const dx = t.clientX - look.lastX;
+      var lx = t.clientX - look.lastX;
       look.lastX = t.clientX;
-      state.dir += dx * 0.008;
+      state.dir += lx * 0.008;
     }
   }
   e.preventDefault();
 }, { passive: false });
 
 function endTouch(e) {
-  for (const t of e.changedTouches) {
+  for (var i = 0; i < e.changedTouches.length; i++) {
+    var t = e.changedTouches[i];
     if (joy.active && t.identifier === joy.id) {
       joy.active = false; joy.id = null;
       joy.dx = 0; joy.dy = 0; setStick(0, 0);
@@ -298,95 +274,67 @@ function endTouch(e) {
 cv.addEventListener('touchend', endTouch, { passive: false });
 cv.addEventListener('touchcancel', endTouch, { passive: false });
 
-// Мышь + клавиатура (для отладки на ПК)
-window.addEventListener('keydown', e => {
-  const k = e.key.toLowerCase();
+window.addEventListener('keydown', function(e){
+  var k = e.key.toLowerCase();
   if (k in keys) keys[k] = 1;
   if (k === ' ') fire();
 });
-window.addEventListener('keyup', e => {
-  const k = e.key.toLowerCase();
+window.addEventListener('keyup', function(e){
+  var k = e.key.toLowerCase();
   if (k in keys) keys[k] = 0;
 });
-let mouseLook = false;
-cv.addEventListener('mousedown', () => { mouseLook = true; });
-window.addEventListener('mouseup', () => { mouseLook = false; });
-window.addEventListener('mousemove', e => {
-  if (mouseLook && !state.dead) state.dir += e.movementX * 0.003;
-});
 
-// Кнопка FIRE
-const fireBtn = document.getElementById('fire');
-fireBtn.addEventListener('touchstart', e => { fire(); e.preventDefault(); }, { passive: false });
-fireBtn.addEventListener('mousedown', e => { fire(); });
+var fireBtn = document.getElementById('fire');
+fireBtn.addEventListener('touchstart', function(e){ fire(); e.preventDefault(); }, { passive: false });
 
-// Рестарт
-document.getElementById('dead').addEventListener('click', () => {
-  if (state.dead) { reset(); state.running = true; }
-});
-document.getElementById('dead').addEventListener('touchstart', e => {
+document.getElementById('dead').addEventListener('touchstart', function(e){
   if (state.dead) { reset(); state.running = true; e.preventDefault(); }
 }, { passive: false });
 
-// Старт
-document.getElementById('go').addEventListener('click', () => {
+document.getElementById('go').addEventListener('click', function(){
   document.getElementById('start').style.display = 'none';
-  resize();
-  reset();
-  state.running = true;
+  resize(); reset(); state.running = true;
   requestAnimationFrame(mainLoop);
 });
 
-// ---------- СТРЕЛЬБА ----------
 function fire() {
   if (state.dead || !state.running) return;
-  if (state.ammo <= 0) return;
-  state.ammo--;
-  document.getElementById('am').textContent = state.ammo;
 
-  // Вспышка
-  const flash = document.getElementById('flash');
+  var flash = document.getElementById('flash');
   flash.style.transition = 'none';
   flash.style.opacity = '0.35';
-  requestAnimationFrame(() => {
+  requestAnimationFrame(function(){
     flash.style.transition = 'opacity 0.15s';
     flash.style.opacity = '0';
   });
 
-  // Луч из центра экрана
-  const dx = Math.cos(state.dir), dy = Math.sin(state.dir);
-  let hit = null, hitDist = Infinity;
-
-  for (const en of state.enemies) {
+  var dx = Math.cos(state.dir), dy = Math.sin(state.dir);
+  var hit = null, hitDist = Infinity;
+  for (var i = 0; i < state.enemies.length; i++) {
+    var en = state.enemies[i];
     if (!en.alive) continue;
-    // Расстояние от врага до луча
-    const ex = en.x - state.px, ey = en.y - state.py;
-    const proj = ex * dx + ey * dy;
+    var ex = en.x - state.px, ey = en.y - state.py;
+    var proj = ex * dx + ey * dy;
     if (proj < 0) continue;
-    const perp = Math.abs(ex * dy - ey * dx);
-    if (perp < 0.35 && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)) {
+    var perp = Math.abs(ex * dy - ey * dx);
+    if (perp < 0.4 && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)) {
       hitDist = proj; hit = en;
     }
   }
-
   if (hit) {
     hit.hp -= 15;
-    // Частица
-    state.particles.push({
-      x: hit.x, y: hit.y,
-      life: 0.3, maxLife: 0.3, color: '#ff2222'
-    });
+    state.particles.push({ x: hit.x, y: hit.y, life: 0.3, maxLife: 0.3, color: '#ff2222' });
     if (hit.hp <= 0) {
       hit.alive = false;
       state.score++;
       document.getElementById('sc').textContent = state.score;
-      // Новый враг вместо убитого через задержку
-      setTimeout(() => {
+      setTimeout(function(){
         if (!state.dead) {
-          const p = findFreeCell();
+          var p = findFreeCell();
           state.enemies.push({
             x: p.x, y: p.y, hp: 30, alive: true,
-            lastAttack: 0, wobble: Math.random() * 6.28
+            lastAttack: 0, wobble: Math.random() * 6.28,
+            frame: 0, frameTimer: 0
           });
         }
       }, 2500);
@@ -395,63 +343,54 @@ function fire() {
 }
 
 function wallBetween(x1, y1, x2, y2) {
-  const steps = Math.ceil(Math.hypot(x2 - x1, y2 - y1) * 8);
-  for (let i = 1; i < steps; i++) {
-    const t = i / steps;
+  var steps = Math.ceil(Math.hypot(x2 - x1, y2 - y1) * 8);
+  for (var i = 1; i < steps; i++) {
+    var t = i / steps;
     if (isWall(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t)) return true;
   }
   return false;
 }
 
-// ---------- ОБНОВЛЕНИЕ ----------
-const MOVE_SPEED = 2.6;
-const TURN_SPEED = 2.4;
+var MOVE_SPEED = 2.6;
 
 function update(dt) {
   if (state.dead || !state.running) return;
 
-  // Движение
-  let mx = 0, my = 0;
+  var mx = 0, my = 0;
   if (joy.active) { mx = joy.dx; my = joy.dy; }
   if (keys.w) my -= 1;
   if (keys.s) my += 1;
   if (keys.a) mx -= 1;
   if (keys.d) mx += 1;
 
-  const len = Math.hypot(mx, my);
+  var len = Math.hypot(mx, my);
   if (len > 1) { mx /= len; my /= len; }
 
   if (len > 0.05) {
-    const cos = Math.cos(state.dir), sin = Math.sin(state.dir);
-    // Вперёд: -my (вверх по экрану = вперёд)
-    const fx = -my * cos + mx * -sin;
-    const fy = -my * sin + mx *  cos;
-    const nx = state.px + fx * MOVE_SPEED * dt;
-    const ny = state.py + fy * MOVE_SPEED * dt;
-    // Раздельно по осям — чтобы скользить по стенам
+    var cos = Math.cos(state.dir), sin = Math.sin(state.dir);
+    var fx = -my * cos + mx * -sin;
+    var fy = -my * sin + mx *  cos;
+    var nx = state.px + fx * MOVE_SPEED * dt;
+    var ny = state.py + fy * MOVE_SPEED * dt;
     if (!isWall(nx, state.py)) state.px = nx;
     if (!isWall(state.px, ny)) state.py = ny;
     state.bob += dt * 8;
-  } else {
-    state.bob *= 0.9;
-  }
+  } else state.bob *= 0.9;
 
-  // Враги
-  for (const en of state.enemies) {
+  for (var i = 0; i < state.enemies.length; i++) {
+    var en = state.enemies[i];
     if (!en.alive) continue;
-    const dx = state.px - en.x, dy = state.py - en.y;
-    const dist = Math.hypot(dx, dy);
+    var dx = state.px - en.x, dy = state.py - en.y;
+    var dist = Math.hypot(dx, dy);
     if (dist < 0.001) continue;
 
-    // Двигается к игроку если видит
     if (dist < 8 && !wallBetween(en.x, en.y, state.px, state.py)) {
-      const speed = 1.1;
-      const nx = en.x + (dx / dist) * speed * dt;
-      const ny = en.y + (dy / dist) * speed * dt;
-      if (!isWall(nx, en.y)) en.x = nx;
-      if (!isWall(en.x, ny)) en.y = ny;
+      var speed = 1.1;
+      var nx2 = en.x + (dx / dist) * speed * dt;
+      var ny2 = en.y + (dy / dist) * speed * dt;
+      if (!isWall(nx2, en.y)) en.x = nx2;
+      if (!isWall(en.x, ny2)) en.y = ny2;
 
-      // Атака вплотную
       if (dist < 0.9) {
         en.lastAttack += dt;
         if (en.lastAttack > 0.8) {
@@ -459,8 +398,7 @@ function update(dt) {
           state.hp -= 7;
           document.getElementById('hp').textContent = Math.max(0, state.hp);
           if (state.hp <= 0) {
-            state.hp = 0;
-            state.dead = true;
+            state.hp = 0; state.dead = true;
             document.getElementById('dsc').textContent = state.score;
             document.getElementById('dead').style.display = 'flex';
           }
@@ -468,206 +406,231 @@ function update(dt) {
       } else en.lastAttack = 0;
     }
     en.wobble += dt * 3;
+    en.frameTimer += dt;
+    if (en.frameTimer > 0.2) { en.frameTimer = 0; en.frame = (en.frame + 1) % 2; }
   }
 
-  // Частицы
-  for (let i = state.particles.length - 1; i >= 0; i--) {
-    state.particles[i].life -= dt;
-    if (state.particles[i].life <= 0) state.particles.splice(i, 1);
+  for (var p = state.particles.length - 1; p >= 0; p--) {
+    state.particles[p].life -= dt;
+    if (state.particles[p].life <= 0) state.particles.splice(p, 1);
   }
 }
 
-// ---------- ОТРИСОВКА ----------
 function render() {
-  const FOV = state.fov;
-  const halfFOV = FOV / 2;
-  const rayCount = Math.min(W, 480); // ограничиваем для FPS на телефоне
-  const colW = W / rayCount;
+  var FOV = state.fov;
+  var halfFOV = FOV / 2;
+  var rayCount = Math.min(W, 640);
+  var colW = W / rayCount;
 
-  // Потолок и пол
-  const bobY = Math.sin(state.bob) * 3;
-  const horizon = H / 2 + bobY;
+  var bobY = Math.sin(state.bob) * 3;
+  var horizon = H / 2 + bobY;
   ctx.fillStyle = '#2a2a3a';
   ctx.fillRect(0, 0, W, horizon);
   ctx.fillStyle = '#1a1a24';
   ctx.fillRect(0, horizon, W, H - horizon);
 
-  // Z-буфер для спрайтов
-  const zbuf = new Float32Array(rayCount);
+  var zbuf = new Float32Array(rayCount);
 
-  for (let i = 0; i < rayCount; i++) {
-    const angle = state.dir - halfFOV + (i / rayCount) * FOV;
-    const rayDx = Math.cos(angle), rayDy = Math.sin(angle);
-
-    // DDA
-    let mapX = Math.floor(state.px), mapY = Math.floor(state.py);
-    const deltaX = Math.abs(1 / rayDx);
-    const deltaY = Math.abs(1 / rayDy);
-    let stepX, stepY, sideDistX, sideDistY;
+  for (var i = 0; i < rayCount; i++) {
+    var angle = state.dir - halfFOV + (i / rayCount) * FOV;
+    var rayDx = Math.cos(angle), rayDy = Math.sin(angle);
+    var mapX = Math.floor(state.px), mapY = Math.floor(state.py);
+    var deltaX = Math.abs(1 / rayDx), deltaY = Math.abs(1 / rayDy);
+    var stepX, stepY, sideDistX, sideDistY;
     if (rayDx < 0) { stepX = -1; sideDistX = (state.px - mapX) * deltaX; }
     else           { stepX =  1; sideDistX = (mapX + 1 - state.px) * deltaX; }
     if (rayDy < 0) { stepY = -1; sideDistY = (state.py - mapY) * deltaY; }
     else           { stepY =  1; sideDistY = (mapY + 1 - state.py) * deltaY; }
 
-    let side = 0, hitWall = false;
-    for (let s = 0; s < 64 && !hitWall; s++) {
-      if (sideDistX < sideDistY) {
-        sideDistX += deltaX; mapX += stepX; side = 0;
-      } else {
-        sideDistY += deltaY; mapY += stepY; side = 1;
-      }
+    var side = 0, hitWall = false;
+    for (var s = 0; s < 64 && !hitWall; s++) {
+      if (sideDistX < sideDistY) { sideDistX += deltaX; mapX += stepX; side = 0; }
+      else                       { sideDistY += deltaY; mapY += stepY; side = 1; }
       if (mapX < 0 || mapX >= MAP_W || mapY < 0 || mapY >= MAP_H) { hitWall = true; break; }
       if (MAP[mapY][mapX] === 1) hitWall = true;
     }
 
-    let dist;
-    if (side === 0) dist = sideDistX - deltaX;
-    else            dist = sideDistY - deltaY;
+    var dist = side === 0 ? sideDistX - deltaX : sideDistY - deltaY;
     if (dist < 0.001) dist = 0.001;
     zbuf[i] = dist;
 
-    // Высота стены с коррекцией fish-eye
-    const corrected = dist * Math.cos(angle - state.dir);
-    const lineH = Math.min(H * 2, H / corrected);
-    const y0 = horizon - lineH / 2;
-    const y1 = horizon + lineH / 2;
-
-    // Цвет: зависит от стороны и расстояния (туман)
-    let base;
-    if (side === 0) base = [150, 100, 70];
-    else            base = [110, 75, 55];
-
-    const fog = Math.min(1, corrected / 12);
-    const r = Math.round(base[0] * (1 - fog * 0.85));
-    const g = Math.round(base[1] * (1 - fog * 0.85));
-    const b = Math.round(base[2] * (1 - fog * 0.85));
-
-    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    var corrected = dist * Math.cos(angle - state.dir);
+    var lineH = Math.min(H * 2, H / corrected);
+    var y0 = horizon - lineH / 2;
+    var y1 = horizon + lineH / 2;
+    var base = side === 0 ? [150, 100, 70] : [110, 75, 55];
+    var fog = Math.min(1, corrected / 12);
+    ctx.fillStyle = 'rgb(' +
+      Math.round(base[0] * (1 - fog * 0.85)) + ',' +
+      Math.round(base[1] * (1 - fog * 0.85)) + ',' +
+      Math.round(base[2] * (1 - fog * 0.85)) + ')';
     ctx.fillRect(i * colW, y0, colW + 1, y1 - y0);
   }
 
-  // ---------- СПРАЙТЫ ВРАГОВ ----------
-  const sprites = state.enemies
-    .filter(e => e.alive)
-    .map(e => ({
-      x: e.x, y: e.y,
-      dist: Math.hypot(e.x - state.px, e.y - state.py),
-      enemy: e,
-    }))
-    .sort((a, b) => b.dist - a.dist);
+  // Спрайты врагов
+  var sprites = [];
+  for (var k = 0; k < state.enemies.length; k++) {
+    var e = state.enemies[k];
+    if (!e.alive) continue;
+    var ddx = e.x - state.px, ddy = e.y - state.py;
+    sprites.push({ x: e.x, y: e.y, dist: Math.hypot(ddx, ddy), enemy: e });
+  }
+  sprites.sort(function(a, b){ return b.dist - a.dist; });
 
-  for (const sp of sprites) {
-    const dx = sp.x - state.px;
-    const dy = sp.y - state.py;
-    // Угол между направлением игрока и вектором до спрайта
-    let angle = Math.atan2(dy, dx) - state.dir;
-    while (angle > Math.PI) angle -= Math.PI * 2;
-    while (angle < -Math.PI) angle += Math.PI * 2;
-    if (Math.abs(angle) > state.fov) continue;
-
-    const corrected = sp.dist * Math.cos(angle);
-    if (corrected < 0.2) continue;
-
-    const sizeH = Math.min(H * 2, H / corrected);
-    const sizeW = sizeH; // пропорции
-    const screenX = W / 2 + Math.tan(angle) * (W / 2) / Math.tan(state.fov / 2);
-    const x0 = Math.floor(screenX - sizeW / 2);
-    const x1 = Math.floor(screenX + sizeW / 2);
-    const y0 = Math.floor(horizon + (H / corrected) / 2 - sizeH);
-    const y1 = Math.floor(horizon + (H / corrected) / 2);
-
-    // Проверка z-буфера: если стена ближе — не рисуем
-    const centerCol = Math.floor((x0 + x1) / 2 / colW);
-    if (centerCol >= 0 && centerCol < rayCount && zbuf[centerCol] < corrected) continue;
-
-    // Рисуем "врага" — красное существо с глазами
-    drawEnemy(x0, y0, x1, y1, corrected, sp.enemy, horizon);
+  for (var si = 0; si < sprites.length; si++) {
+    drawSprite(sprites[si], horizon, colW, rayCount, zbuf);
   }
 
-  // Оружие внизу (ствол)
   drawGun();
 
-  // Частицы
-  for (const p of state.particles) {
-    const dx = p.x - state.px, dy = p.y - state.py;
-    let angle = Math.atan2(dy, dx) - state.dir;
-    while (angle > Math.PI) angle -= Math.PI * 2;
-    while (angle < -Math.PI) angle += Math.PI * 2;
-    if (Math.abs(angle) > state.fov) continue;
-    const corrected = Math.hypot(dx, dy) * Math.cos(angle);
-    if (corrected < 0.2) continue;
-    const size = Math.min(H * 2, H / corrected) * 0.5;
-    const sx = W / 2 + Math.tan(angle) * (W / 2) / Math.tan(state.fov / 2);
-    const sy = horizon;
-    const a = p.life / p.maxLife;
-    ctx.globalAlpha = a;
+  for (var pi = 0; pi < state.particles.length; pi++) {
+    var p = state.particles[pi];
+    var pdx = p.x - state.px, pdy = p.y - state.py;
+    var pangle = Math.atan2(pdy, pdx) - state.dir;
+    while (pangle > Math.PI) pangle -= Math.PI * 2;
+    while (pangle < -Math.PI) pangle += Math.PI * 2;
+    if (Math.abs(pangle) > state.fov) continue;
+    var pcorr = Math.hypot(pdx, pdy) * Math.cos(pangle);
+    if (pcorr < 0.2) continue;
+    var psize = Math.min(H * 2, H / pcorr) * 0.5;
+    var psx = W / 2 + Math.tan(pangle) * (W / 2) / Math.tan(state.fov / 2);
+    ctx.globalAlpha = p.life / p.maxLife;
     ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(sx, sy, size * 0.4, 0, Math.PI * 2);
+    ctx.arc(psx, horizon, psize * 0.4, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
   }
 }
 
-function drawEnemy(x0, y0, x1, y1, dist, enemy, horizon) {
-  const w = x1 - x0, h = y1 - y0;
-  if (w < 2 || h < 2) return;
+// Рисуем врага по столбцам с проверкой z-буфера
+function drawSprite(sp, horizon, colW, rayCount, zbuf) {
+  var dx = sp.x - state.px, dy = sp.y - state.py;
+  var angle = Math.atan2(dy, dx) - state.dir;
+  while (angle > Math.PI) angle -= Math.PI * 2;
+  while (angle < -Math.PI) angle += Math.PI * 2;
+  if (Math.abs(angle) > state.fov) return;
 
-  const fog = Math.min(1, dist / 12);
-  const tint = 1 - fog * 0.8;
+  var corrected = sp.dist * Math.cos(angle);
+  if (corrected < 0.2) return;
 
-  // Тело — красный прямоугольник с закруглением
-  ctx.fillStyle = `rgb(${Math.round(200*tint)},${Math.round(40*tint)},${Math.round(50*tint)})`;
-  ctx.fillRect(x0, y0 + h * 0.25, w, h * 0.75);
+  var sizeH = Math.min(H * 2, H / corrected);
+  var sizeW = sizeH * 0.75;
+  var screenX = W / 2 + Math.tan(angle) * (W / 2) / Math.tan(state.fov / 2);
+  var x0 = Math.floor(screenX - sizeW / 2);
+  var x1 = Math.floor(screenX + sizeW / 2);
+  var yBot = Math.floor(horizon + (H / corrected) / 2);
+  var yTop = Math.floor(yBot - sizeH);
 
-  // Голова — круг
-  ctx.beginPath();
-  ctx.fillStyle = `rgb(${Math.round(220*tint)},${Math.round(60*tint)},${Math.round(60*tint)})`;
-  ctx.arc(x0 + w/2, y0 + h * 0.22, w * 0.28, 0, Math.PI * 2);
-  ctx.fill();
+  var fog = Math.min(1, corrected / 12);
+  var tint = 1 - fog * 0.85;
 
-  // Глаза — жёлтые (или белые при взгляде на игрока)
-  ctx.fillStyle = `rgb(${Math.round(255*tint)},${Math.round(230*tint)},0)`;
-  const eyeR = Math.max(1, w * 0.07);
-  ctx.beginPath();
-  ctx.arc(x0 + w * 0.38, y0 + h * 0.20, eyeR, 0, Math.PI * 2);
-  ctx.arc(x0 + w * 0.62, y0 + h * 0.20, eyeR, 0, Math.PI * 2);
-  ctx.fill();
+  var e = sp.enemy;
+  var bob = Math.sin(e.wobble) * sizeH * 0.02;
+  var walkOffset = e.frame === 0 ? 0 : sizeH * 0.02;
 
-  // Рот — полоска
-  ctx.fillStyle = `rgb(${Math.round(30*tint)},0,0)`;
-  ctx.fillRect(x0 + w * 0.35, y0 + h * 0.34, w * 0.30, Math.max(1, h * 0.04));
+  // Проходим по колонкам и рисуем только где нет стены
+  var startCol = Math.max(0, Math.floor(x0 / colW));
+  var endCol = Math.min(rayCount - 1, Math.ceil(x1 / colW));
+
+  for (var c = startCol; c <= endCol; c++) {
+    if (zbuf[c] < corrected) continue;
+
+    var sx = c * colW;
+    var sw = colW + 1;
+    var uMid = ((sx + sw / 2) - x0) / sizeW;
+
+    // Локальные координаты
+    var bodyColor = 'rgb(' +
+      Math.round(180 * tint) + ',' +
+      Math.round(30 * tint) + ',' +
+      Math.round(40 * tint) + ')';
+    var darkColor = 'rgb(' +
+      Math.round(80 * tint) + ',' +
+      Math.round(15 * tint) + ',' +
+      Math.round(20 * tint) + ')';
+    var hornColor = 'rgb(' +
+      Math.round(50 * tint) + ',' +
+      Math.round(45 * tint) + ',' +
+      Math.round(55 * tint) + ')';
+
+    // Рога (верхние 12%)
+    if (uMid < 0.28 || uMid > 0.72) {
+      ctx.fillStyle = hornColor;
+      ctx.fillRect(sx, yTop + bob, sw, sizeH * 0.10);
+    }
+
+    // Голова
+    if (uMid > 0.22 && uMid < 0.78) {
+      ctx.fillStyle = bodyColor;
+      ctx.fillRect(sx, yTop + sizeH * 0.10 + bob, sw, sizeH * 0.22);
+    }
+
+    // Глаза
+    if ((uMid > 0.32 && uMid < 0.42) || (uMid > 0.58 && uMid < 0.68)) {
+      if (sizeH > 20) {
+        ctx.fillStyle = 'rgb(' +
+          Math.round(255 * tint) + ',' +
+          Math.round(220 * tint) + ',0)';
+        ctx.fillRect(sx, yTop + sizeH * 0.16 + bob, sw, sizeH * 0.05);
+      }
+    }
+
+    // Зубастый рот
+    if (uMid > 0.36 && uMid < 0.64) {
+      if (sizeH > 30) {
+        ctx.fillStyle = 'rgb(' +
+          Math.round(240 * tint) + ',' +
+          Math.round(240 * tint) + ',' +
+          Math.round(240 * tint) + ')';
+        ctx.fillRect(sx, yTop + sizeH * 0.24 + bob, sw, sizeH * 0.03);
+      }
+    }
+
+    // Торс
+    if (uMid > 0.20 && uMid < 0.80) {
+      ctx.fillStyle = bodyColor;
+      ctx.fillRect(sx, yTop + sizeH * 0.32 + bob, sw, sizeH * 0.42);
+    }
+
+    // Тёмная полоса на торсе
+    if (uMid > 0.35 && uMid < 0.65) {
+      ctx.fillStyle = darkColor;
+      ctx.fillRect(sx, yTop + sizeH * 0.45 + bob, sw, sizeH * 0.08);
+    }
+
+    // Ноги
+    if (uMid > 0.20 && uMid < 0.42) {
+      ctx.fillStyle = darkColor;
+      ctx.fillRect(sx, yBot - sizeH * 0.26 + walkOffset, sw, sizeH * 0.26);
+    }
+    if (uMid > 0.58 && uMid < 0.80) {
+      ctx.fillStyle = darkColor;
+      ctx.fillRect(sx, yBot - sizeH * 0.26 - walkOffset, sw, sizeH * 0.26);
+    }
+  }
 }
 
 function drawGun() {
-  const gunW = Math.min(W * 0.35, 260);
-  const gunH = gunW * 0.7;
-  const gx = W / 2 - gunW / 2;
-  const gy = H - gunH * 0.15 + Math.sin(state.bob) * 4;
-
-  // Тень ствола
+  var gunW = Math.min(W * 0.28, 260);
+  var gunH = gunW * 0.7;
+  var gx = W / 2 - gunW / 2;
+  var gy = H - gunH * 0.15 + Math.sin(state.bob) * 4;
   ctx.fillStyle = '#1a1a22';
   ctx.fillRect(gx + gunW * 0.35, gy, gunW * 0.3, gunH);
-
-  // Ствол
   ctx.fillStyle = '#333344';
   ctx.fillRect(gx + gunW * 0.4, gy - gunH * 0.2, gunW * 0.2, gunH * 0.6);
-
-  // Отверстие ствола
   ctx.fillStyle = '#000';
   ctx.beginPath();
   ctx.arc(gx + gunW * 0.5, gy - gunH * 0.15, gunW * 0.05, 0, Math.PI * 2);
   ctx.fill();
-
-  // Блик
   ctx.fillStyle = 'rgba(255,255,255,0.15)';
   ctx.fillRect(gx + gunW * 0.41, gy - gunH * 0.18, gunW * 0.02, gunH * 0.5);
 }
 
-// ---------- ГЛАВНЫЙ ЦИКЛ ----------
-let lastTime = 0;
+var lastTime = 0;
 function mainLoop(t) {
-  const dt = Math.min(0.05, (t - lastTime) / 1000 || 0.016);
+  var dt = Math.min(0.05, (t - lastTime) / 1000 || 0.016);
   lastTime = t;
   update(dt);
   render();
